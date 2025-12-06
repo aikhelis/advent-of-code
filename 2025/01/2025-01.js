@@ -9,11 +9,11 @@ const initialValue = 50;
 
 console.log('Input:', input);
 console.log('Steps:', steps);
-console.log('Zero Crossings count:', countTotalZeroCrossings(steps, initialValue));
+console.log('Zero Crossings count:', countTotalZeroCrossings(initialValue, dialLength, steps));
 
 /* Helper functions */
 
-function countTotalZeroCrossings(steps, initialValue) {
+function countTotalZeroCrossings(initialValue, dialLength, steps) {
     let count = 0;
     steps.reduce(
         (sum, currentValue) => {
