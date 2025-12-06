@@ -1,4 +1,4 @@
-const {readFileLines} = require('../../lib/readFile');
+const {readFileLines} = require('../lib/readFile');
 const testInput    = readFileLines('test.txt');
 const puzzleInput  = readFileLines('input2.txt');
 
