@@ -6,7 +6,9 @@ function readFile(file) {
 }
 
 function readFileLines(file) {
-    return readFile(file).split('\n');
+    return readFile(file)
+        .split(/\r?\n/)
+        .filter(line => line.trim() !== '');
 }
 
 module.exports = {readFile, readFileLines: readFileLines};
