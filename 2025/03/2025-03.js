@@ -23,13 +23,13 @@ function maxJoltage(bank, numberOfBatteries) {
     let sum = '';
     let indexPrev = -1;
     for (let i = 1; i <= numberOfBatteries; i++) {
-        [indexPrev, digitFound] = maxDigit(bank, ++indexPrev, (bank.length-1) - (numberOfBatteries-i));
+        [digitFound, indexPrev] = maxDigitWithIndex(bank, ++indexPrev, (bank.length-1) - (numberOfBatteries-i));
         sum += digitFound;
     }
     return Number(sum);
 }
 
-function maxDigit(bank, indexStart, indexEnd) {
+function maxDigitWithIndex(bank, indexStart, indexEnd) {
     let maxIndex = indexStart;
     let maxDigitFound = bank[indexStart];
     for (let i = indexStart; i <= indexEnd; i++) {
@@ -39,5 +39,5 @@ function maxDigit(bank, indexStart, indexEnd) {
         }
         if (maxDigitFound === maxValue) break;
     }
-    return [maxIndex, maxDigitFound];
+    return [maxDigitFound, maxIndex];
 }
