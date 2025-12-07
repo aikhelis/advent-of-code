@@ -3,12 +3,13 @@ const testInput     = readFileLines('test.txt');
 const puzzleInput   = readFileLines('input.txt');
 const puzzleInput2  = readFileLines('input2.txt');
 
-const input = testInput;
+const input = puzzleInput;
 let matrix = input.map(line => line.split(''));
-printGrid(matrix);
+// printGrid(matrix);
 
 const maxAdjacentRolls = 3;
-console.log('Accessible rolls:', countAccessibleRolls(matrix));
+console.log('Part 1 - Initially accessible rolls:', countAccessibleRolls(matrix));
+console.log('Part 2 - Total rolls removed:', removeAllAccessibleRolls(matrix));
 
 /* Helper functions */
 
@@ -21,7 +22,6 @@ function printGrid(grid) {
 }
 
 function isAccessibleRoll(grid, i, j) {
-    // console.log(`Checking roll at (${i}, ${j}):`, grid[i][j]);
     if (!grid[i][j] || grid[i][j] !== '@') {
         return false;
     }
@@ -44,11 +44,8 @@ function isAccessibleRoll(grid, i, j) {
         
         // Skip if out of bounds
         if (newRow < 0 || newRow >= numRows || newCol < 0 || newCol >= numCols) {
-            // console.log(`Checking adjacent (${newRow}, ${newCol}): out of bounds`);
             continue;
         }
-        
-        // console.log(`Checking adjacent (${newRow}, ${newCol}):`, grid[newRow][newCol]);
 
         if (grid[newRow][newCol] === '@') {
             adjacentRolls++;
@@ -61,21 +58,48 @@ function countAccessibleRolls(grid) {
     let countOfAccessibleRolls = 0;
     const numRows = grid.length;
     const numCols = grid[0].length;
-    const newGrid = Array.from({ length: numRows }, () => Array(numCols).fill('.'));
     
     for (let i = 0; i < numRows; i++) {
         for (let j = 0; j < numCols; j++) {
-            if (grid[i][j] === '@') {
-                if (isAccessibleRoll(grid, i, j)) {
-                    countOfAccessibleRolls++;
-                    newGrid[i][j] = 'x';
-                } else {
-                    newGrid[i][j] = '@';
-                }
+            if (grid[i][j] === '@' && isAccessibleRoll(grid, i, j)) {
+                countOfAccessibleRolls++;
             }
         }
     }
-    // printGrid(newGrid);
     return countOfAccessibleRolls;
+}
+
+function removeAllAccessibleRolls(grid) {
+    let totalRemoved = 0;
+    let removed = true;
+    
+    while (removed) {
+        removed = false;
+        const numRows = grid.length;
+        const numCols = grid[0].length;
+        const toRemove = [];
+        
+        // Find all accessible rolls in current state
+        for (let i = 0; i < numRows; i++) {
+            for (let j = 0; j < numCols; j++) {
+                if (grid[i][j] === '@' && isAccessibleRoll(grid, i, j)) {
+                    toRemove.push([i, j]);
+                }
+            }
+        }
+        
+        // Remove them all at once
+        for (let [i, j] of toRemove) {
+            grid[i][j] = '.';
+            totalRemoved++;
+            removed = true;
+        }
+        
+        // if (removed) {
+        //     console.log(`Removed ${toRemove.length} rolls, total so far: ${totalRemoved}`);
+        // }
+    }
+    
+    return totalRemoved;
 }
 
