@@ -11,4 +11,9 @@ function readFileLines(file) {
         .filter(line => line.trim() !== '');
 }
 
-module.exports = {readFile, readFileLines: readFileLines};
+function readFileLinesWithBlanks(file) {
+    const content = fs.readFileSync(path.resolve(file), 'utf8');
+    return content.split(/\r?\n/);
+}
+
+module.exports = {readFile, readFileLines, readFileLinesWithBlanks};

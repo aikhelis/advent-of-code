@@ -1,16 +1,9 @@
-const fs = require('fs');
-const path = require('path');
+const {readFileLinesWithBlanks} = require('../lib/readFile');
+const testInput     = readFileLinesWithBlanks('test.txt');
+const puzzleInput   = readFileLinesWithBlanks('input.txt');
+const puzzleInput2  = readFileLinesWithBlanks('input2.txt');
 
-function readFileWithBlanks(file) {
-    const content = fs.readFileSync(path.resolve(file), 'utf8');
-    return content.split(/\r?\n/);
-}
-
-const testInput     = readFileWithBlanks('test.txt');
-const puzzleInput   = readFileWithBlanks('input.txt');
-const puzzleInput2  = readFileWithBlanks('input2.txt');
-
-const input = puzzleInput2;
+const input = puzzleInput;
 const blankLineIndex = input.indexOf('');
 const rangeLines = input.slice(0, blankLineIndex);
 const availableIDLines = input.slice(blankLineIndex + 1).filter(line => line.trim() !== '');
